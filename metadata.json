@@ -1,0 +1,5 @@
+{
+  "name": "LoR Adventure XP Calculator",
+  "description": "A tool to help Legends of Runeterra players calculate how many adventures they need to complete to progress a Champion from a current level to a target level.",
+  "requestFramePermissions": []
+}

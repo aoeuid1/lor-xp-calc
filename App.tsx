@@ -7,7 +7,7 @@ import BonusInput from './components/BonusInput';
 function App() {
   const [currentLevel, setCurrentLevel] = useState(MIN_LEVEL);
   const [targetLevel, setTargetLevel] = useState(30);
-  const [xpBonus, setXpBonus] = useState(1);
+  const [xpBonusPercent, setXpBonusPercent] = useState(0);
 
   const xpNeeded = useMemo(() => {
     if (targetLevel <= currentLevel || CUMULATIVE_XP_PER_LEVEL[targetLevel] == null || CUMULATIVE_XP_PER_LEVEL[currentLevel] == null) {
@@ -17,6 +17,8 @@ function App() {
     const currentXp = CUMULATIVE_XP_PER_LEVEL[currentLevel];
     return targetXp - currentXp;
   }, [currentLevel, targetLevel]);
+  
+  const xpMultiplier = useMemo(() => 1 + (xpBonusPercent / 100), [xpBonusPercent]);
 
   const handleCurrentLevelChange = (level: number) => {
     if (level >= MIN_LEVEL && level <= MAX_LEVEL) {
@@ -61,17 +63,17 @@ function App() {
             />
           </div>
           <div className="mt-8 flex flex-col sm:flex-row justify-between items-center bg-brand-bg/50 rounded-lg p-4 gap-4">
-            <div className="text-center">
+            <div className="text-center sm:text-left">
               <span className="text-brand-text-secondary uppercase text-sm tracking-wider">Total XP Required</span>
               <p className="text-4xl font-bold text-brand-primary tracking-tighter">
                 {xpNeeded.toLocaleString()}
               </p>
             </div>
-            <BonusInput value={xpBonus} onChange={setXpBonus} />
+            <BonusInput value={xpBonusPercent} onChange={setXpBonusPercent} />
           </div>
         </div>
 
-        <AdventureTabs adventures={ADVENTURES} xpNeeded={xpNeeded} xpBonus={xpBonus} />
+        <AdventureTabs adventures={ADVENTURES} xpNeeded={xpNeeded} xpBonus={xpMultiplier} />
       </main>
       
       <footer className="w-full max-w-5xl text-center mt-12 text-brand-text-secondary text-sm">

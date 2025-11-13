@@ -4,6 +4,10 @@ on:
   push:
     branches: [ main ] # Trigger the workflow on pushes to the main branch
 
+permissions:
+  pages: write
+  id-token: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest

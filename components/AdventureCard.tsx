@@ -14,8 +14,14 @@ const AdventureCard: React.FC<AdventureCardProps> = ({ adventure, xpNeeded }) =>
     return Math.ceil(xpNeeded / adventure.xp);
   }, [xpNeeded, adventure.xp]);
 
+  // A subtle animation delay to make the grid feel more alive
+  const randomDelay = useMemo(() => Math.random() * 200, [adventure]);
+
   return (
-    <div className="bg-brand-surface rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform hover:scale-105 duration-300">
+    <div 
+      className="bg-brand-surface rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform hover:scale-105 duration-300 animate-fade-in"
+      style={{ animationDelay: `${randomDelay}ms` }}
+    >
       <div className="p-5 flex-grow">
         <div className="flex justify-between items-start">
             <h3 className="font-bold text-lg text-brand-text pr-2">{adventure.name}</h3>

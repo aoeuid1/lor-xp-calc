@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const MIN_BONUS = 1;
-const MAX_BONUS = 10;
+const MAX_BONUS = 100;
 
 interface BonusInputProps {
   value: number;

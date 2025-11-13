@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Campaign, Adventure } from '../types';
 import AdventureCard from './AdventureCard';
@@ -6,11 +5,12 @@ import AdventureCard from './AdventureCard';
 interface AdventureTabsProps {
   adventures: Adventure[];
   xpNeeded: number;
+  xpBonus: number;
 }
 
 const TABS = Object.values(Campaign);
 
-const AdventureTabs: React.FC<AdventureTabsProps> = ({ adventures, xpNeeded }) => {
+const AdventureTabs: React.FC<AdventureTabsProps> = ({ adventures, xpNeeded, xpBonus }) => {
   const [activeTab, setActiveTab] = useState<Campaign>(TABS[0]);
 
   const filteredAdventures = useMemo(() => {
@@ -38,7 +38,7 @@ const AdventureTabs: React.FC<AdventureTabsProps> = ({ adventures, xpNeeded }) =
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {filteredAdventures.map(adv => (
-          <AdventureCard key={`${activeTab}-${adv.name}`} adventure={adv} xpNeeded={xpNeeded} />
+          <AdventureCard key={`${activeTab}-${adv.name}`} adventure={adv} xpNeeded={xpNeeded} xpBonus={xpBonus} />
         ))}
       </div>
     </div>

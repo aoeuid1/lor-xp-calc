@@ -1,4 +1,3 @@
-
 import React, { useMemo } from 'react';
 import { Adventure } from '../types';
 import { StarIcon } from './Icons';
@@ -6,13 +5,18 @@ import { StarIcon } from './Icons';
 interface AdventureCardProps {
   adventure: Adventure;
   xpNeeded: number;
+  xpBonus: number;
 }
 
-const AdventureCard: React.FC<AdventureCardProps> = ({ adventure, xpNeeded }) => {
+const AdventureCard: React.FC<AdventureCardProps> = ({ adventure, xpNeeded, xpBonus }) => {
+  const modifiedXp = useMemo(() => {
+    return Math.floor(adventure.xp * xpBonus);
+  }, [adventure.xp, xpBonus]);
+
   const runsNeeded = useMemo(() => {
-    if (xpNeeded <= 0 || adventure.xp <= 0) return 0;
-    return Math.ceil(xpNeeded / adventure.xp);
-  }, [xpNeeded, adventure.xp]);
+    if (xpNeeded <= 0 || modifiedXp <= 0) return 0;
+    return Math.ceil(xpNeeded / modifiedXp);
+  }, [xpNeeded, modifiedXp]);
 
   // A subtle animation delay to make the grid feel more alive
   const randomDelay = useMemo(() => Math.random() * 200, [adventure]);
@@ -30,7 +34,12 @@ const AdventureCard: React.FC<AdventureCardProps> = ({ adventure, xpNeeded }) =>
                 <StarIcon className="w-4 h-4" />
             </div>
         </div>
-        <p className="text-sm text-brand-text-secondary mt-1">{adventure.xp.toLocaleString()} XP per run</p>
+        <p className="text-sm text-brand-text-secondary mt-1">
+          {modifiedXp.toLocaleString()} XP per run
+          {xpBonus !== 1 && (
+            <span className="text-brand-primary/80 ml-1">({adventure.xp.toLocaleString()} base)</span>
+          )}
+        </p>
       </div>
       <div className="bg-brand-bg/50 px-5 py-4">
         <div className="flex justify-between items-center">

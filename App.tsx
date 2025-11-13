@@ -2,10 +2,12 @@ import React, { useState, useMemo } from 'react';
 import { CUMULATIVE_XP_PER_LEVEL, ADVENTURES, MAX_LEVEL, MIN_LEVEL } from './constants';
 import LevelInput from './components/LevelInput';
 import AdventureTabs from './components/AdventureTabs';
+import BonusInput from './components/BonusInput';
 
 function App() {
   const [currentLevel, setCurrentLevel] = useState(MIN_LEVEL);
   const [targetLevel, setTargetLevel] = useState(30);
+  const [xpBonus, setXpBonus] = useState(1);
 
   const xpNeeded = useMemo(() => {
     if (targetLevel <= currentLevel || CUMULATIVE_XP_PER_LEVEL[targetLevel] == null || CUMULATIVE_XP_PER_LEVEL[currentLevel] == null) {
@@ -58,15 +60,18 @@ function App() {
               onChange={handleTargetLevelChange}
             />
           </div>
-          <div className="mt-8 text-center bg-brand-bg/50 rounded-lg p-4">
-            <span className="text-brand-text-secondary uppercase text-sm tracking-wider">Total XP Required</span>
-            <p className="text-4xl font-bold text-brand-primary tracking-tighter">
-              {xpNeeded.toLocaleString()}
-            </p>
+          <div className="mt-8 flex flex-col sm:flex-row justify-between items-center bg-brand-bg/50 rounded-lg p-4 gap-4">
+            <div className="text-center">
+              <span className="text-brand-text-secondary uppercase text-sm tracking-wider">Total XP Required</span>
+              <p className="text-4xl font-bold text-brand-primary tracking-tighter">
+                {xpNeeded.toLocaleString()}
+              </p>
+            </div>
+            <BonusInput value={xpBonus} onChange={setXpBonus} />
           </div>
         </div>
 
-        <AdventureTabs adventures={ADVENTURES} xpNeeded={xpNeeded} />
+        <AdventureTabs adventures={ADVENTURES} xpNeeded={xpNeeded} xpBonus={xpBonus} />
       </main>
       
       <footer className="w-full max-w-5xl text-center mt-12 text-brand-text-secondary text-sm">
